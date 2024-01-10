@@ -1,89 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- WebView to display a webpage -->
+    <Button
+        android:id="@+id/btnLoadWebPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Load OpenAI Website"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:onClick="loadWebPage" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello, Widgets!"
+        android:textSize="18sp"
+        android:layout_below="@id/btnLoadWebPage"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Type something..."
+        android:inputType="text"
+        android:layout_below="@id/textView"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/editText"
+        android:layout_marginTop="23dp"
+        android:scaleType="centerCrop"
+        tools:srcCompat="@tools:sample/avatars" />
+
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/checkbox"
-        android:layout_alignParentTop="true"
-        />
-
-    <!-- Checkbox to toggle a feature -->
-    <CheckBox
-        android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Enable Feature" />
-
+        android:layout_below="@id/imageView"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
 </RelativeLayout>
 
 
 
 
-package com.example.checkbox;
+java
 
-import androidx.appcompat.app.AppCompatActivity;
+
+package com.example.huz3;
+
 import android.os.Bundle;
-import android.webkit.WebSettings;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private WebView webView;
-    private CheckBox checkBox;
+    private EditText editText;
+    private TextView textView;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize WebView and Checkbox
         webView = findViewById(R.id.webView);
-        checkBox = findViewById(R.id.checkbox);
-
-        // Configure the WebView
-        webView.setWebViewClient(new WebViewClient());
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webView.loadUrl("https://en.wikipedia.org/wiki/My_Neighbor_Totoro");
-
-
-        // Set up Checkbox listener
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Show AlertDialog when the checkbox is checked
-                if (isChecked) {
-                    showAlertDialog();
-                }
-            }
-        }); // Added the missing closing parenthesis here
+        editText = findViewById(R.id.editText);
+        textView = findViewById(R.id.textView);
+        imageView = findViewById(R.id.imageView);
     }
 
-    private void showAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Checkbox is checked!");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+    public void loadWebPage(View view) {
+        String url = "https://www.google.com"; // Change this URL to the desired website
+
+        // Load the web page in the WebView
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl(url);
+
+        // Update the TextView with a message
+        textView.setText("Loading " + url);
+
+        // Load an image in the ImageView (replace R.drawable.ic_launcher_foreground with your image)
+        imageView.setImageResource(R.drawable.ic_launcher_foreground);
     }
 }
